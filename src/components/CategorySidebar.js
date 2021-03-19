@@ -19,16 +19,19 @@ function CategorySidebar() {
 					categories: feedback.data,
 				})
         console.log('LOCAL CATE: ', categories)
-        console.log(typeof categories)
       })
   }, [])
 
 
   return (
-    <div className="bg-gray-200 p-4">
+    <div className="bg-gray-200 flex flex-col h-full overflow-hidden">
       <h3 className="text-xl m-2 my-3">Categories</h3>
-
-      <section className="text-left mt-5">
+      <div className="flex p-4 justify-end">
+        <div className="table p-2 rounded shadow-2xl uppercase cursor-pointer text-xs bg-blue-600 text-white hover:bg-white hover:text-blue-600">
+          Create Category
+        </div>
+      </div>
+      <section className="text-left p-4 mt-5 overflow-auto ">
         {(typeof categories != "undefined") ? (
           categories.map((category, key) => {
             return <CategoryItem name={category.name} pos={key} id={category.id} key={category.id} />
