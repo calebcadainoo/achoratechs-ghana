@@ -1,12 +1,31 @@
 import React from 'react'
+import { useDataLayerValue } from '../context-api/DataLayer'
+import { actionTypes } from '../context-api/reducer'
 
 function CategoryItem(props) {
+
+  // DataLayer - React context api
+  const [{ categories, BASE_URL }, dispatch] = useDataLayerValue()
+
   const CategoryEdit = (id) => {
     console.log('EDIT ID: ', id)
   }
 
   const DeleteCategory = (id) => {
     console.log('DELETE ID: ', id)
+    const newCategories = categories.filter((category) => category.id !== id )
+    dispatch({
+      type: actionTypes.SET_CATEGORIES,
+      categories: newCategories,
+    })
+    // delete from api
+    fetch(`${BASE_URL}/categories/${id}`, {
+      method: 'DELETE',
+    })
+    .then(response => response.json())
+    .then(feedback => {
+      console.log('DELETE RESPONSE: ', feedback)
+    })
   }
 
   return (
