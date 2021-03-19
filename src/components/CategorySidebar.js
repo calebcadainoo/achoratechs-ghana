@@ -1,19 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
 import CategoryItem from './CategoryItem'
+import { useDataLayerValue } from '../context-api/DataLayer'
+import { actionTypes } from '../context-api/reducer'
 
 function CategorySidebar() {
+
   const BASE_URL = 'https://test.anchoratechs.com'
-  const [categories, setCategories] = useState({})
+  const [currentCategories, setCategories] = useState({})
+  const [{ categories }, dispatch] = useDataLayerValue()
+
   // make api call
   useEffect(() => {
     fetch(`${BASE_URL}/categories`)
       .then(response => response.json())
       .then(data => {
         setCategories(data)
-        console.log('LOCAL CATE: ', categories)
+        dispatch({
+					type: actionTypes.SET_USER,
+					categories: data,
+				})
+        console.log('LOCAL CATE: ', currentCategories)
       })
   }, [])
+
+  // assign category to DataLayer
+  
 
 
   return (
