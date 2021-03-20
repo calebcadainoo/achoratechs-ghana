@@ -35,8 +35,8 @@ function ProductItem({ item }) {
   const LoadProduct = (id) => {
     setEditItemId(id)
     setIsEditModalOpen(true)
-    const test = categories.filter((category) => {
-      return category.id === id
+    const test = products.filter((product) => {
+      return product.id === id
     })
     setItemImage(test[0].image)
     setItemTitle(test[0].title)
@@ -138,10 +138,10 @@ function ProductItem({ item }) {
       >
 				{/* close btn */}
 				<button onClick={() => setIsEditModalOpen(false)} className="btn p-1 uppercase bg-red-100 rounded text-red-500 text-xs px-3 cursor-pointer shadow-md " >Close X</button>
-        <ModalTitle title="Add New Category" />
+        <ModalTitle title="Add New Item" />
 				<form method="PUT" onSubmit={EditProduct}>
 					<div className="my-10">
-						<input key="i0" onChange={setItemImage} type="file" name="itemImage" value={itemImage} />
+						<input key="i0" onChange={() => setItemImage} type="file" name="itemImage" />
 
             <InputBox onInputBoxChange={setItemTitle} 
                 key="i1"
@@ -173,7 +173,7 @@ function ProductItem({ item }) {
               />
 					</div>
 					<button type="submit" className="w-9/12 m-auto outline-none btn table p-2 px-5 rounded shadow-2xl uppercase cursor-pointer text-xs bg-blue-600 text-white ">
-						Update Category
+						Update Item
 					</button>
 				</form>
 			</ReactModal>
