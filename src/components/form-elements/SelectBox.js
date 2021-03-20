@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 
 function SelectBox({label, name, optionList, onInputBoxChange, stateVal, isBeingEdited}) {
 
@@ -15,9 +15,6 @@ function SelectBox({label, name, optionList, onInputBoxChange, stateVal, isBeing
       >
         {(typeof optionList != "undefined") ? (
           optionList.map((category, key) => {
-            if (isBeingEdited === true) {
-							
-            } 
 						<option value="">-- Choose from list --</option>
 						const option = <option value={category.id} key={key}>{category.name}</option>
             return option
