@@ -29,8 +29,9 @@ function CategorySidebar() {
       })
   }, [])
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
 	const [categoryName, setCategoryName] = useState('')
+
 	const modalStyle = {
 		overflow: {
 			background: 'rgba(0, 0, 0, 0.3)'
@@ -62,7 +63,7 @@ function CategorySidebar() {
 				type: actionTypes.SET_CATEGORIES,
 				categories: categories,
 			})
-			setIsModalOpen(false)
+			setIsCreateModalOpen(false)
 			setCategoryName('')
 			alert.show(feedback.message)
 		})
@@ -73,7 +74,7 @@ function CategorySidebar() {
     <div className="bg-gray-200 flex flex-col h-full overflow-hidden">
       <h3 className="text-xl m-2 my-3">Categories</h3>
       <div className="flex p-4 justify-end">
-        <div onClick={() => setIsModalOpen(true)} className="table p-2 rounded shadow-2xl uppercase cursor-pointer text-xs bg-blue-600 text-white hover:bg-white hover:text-blue-600">
+        <div onClick={() => setIsCreateModalOpen(true)} className="table p-2 rounded shadow-2xl uppercase cursor-pointer text-xs bg-blue-600 text-white hover:bg-white hover:text-blue-600">
           Create Category
         </div>
       </div>
@@ -87,13 +88,13 @@ function CategorySidebar() {
 
       {/* <ModalCreateCategory open={isModalOpen} /> */}
 			<ReactModal 
-        isOpen={isModalOpen}
+        isOpen={isCreateModalOpen}
         shouldCloseOnOverlayClick={true}
-        onRequestClose={() => setIsModalOpen(false)}
+        onRequestClose={() => setIsCreateModalOpen(false)}
 				style={modalStyle}
       >
 				{/* close btn */}
-				<button onClick={() => setIsModalOpen(false)} className="btn p-1 uppercase bg-red-100 rounded text-red-500 text-xs px-3 cursor-pointer shadow-md " >Close X</button>
+				<button onClick={() => setIsCreateModalOpen(false)} className="btn p-1 uppercase bg-red-100 rounded text-red-500 text-xs px-3 cursor-pointer shadow-md " >Close X</button>
         <ModalTitle title="Add New Category" />
 				<form method="POST" onSubmit={CreateCategory}>
 					<div className="my-10">
