@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/achoratechs-ghana/static/css/main.59e422c4.chunk.css",
+    "main.js": "/achoratechs-ghana/static/js/main.e46cf5f7.chunk.js",
+    "main.js.map": "/achoratechs-ghana/static/js/main.e46cf5f7.chunk.js.map",
+    "runtime-main.js": "/achoratechs-ghana/static/js/runtime-main.9479489d.js",
+    "runtime-main.js.map": "/achoratechs-ghana/static/js/runtime-main.9479489d.js.map",
+    "static/js/2.52b912bd.chunk.js": "/achoratechs-ghana/static/js/2.52b912bd.chunk.js",
+    "static/js/2.52b912bd.chunk.js.map": "/achoratechs-ghana/static/js/2.52b912bd.chunk.js.map",
+    "static/js/3.46ab99c4.chunk.js": "/achoratechs-ghana/static/js/3.46ab99c4.chunk.js",
+    "static/js/3.46ab99c4.chunk.js.map": "/achoratechs-ghana/static/js/3.46ab99c4.chunk.js.map",
+    "index.html": "/achoratechs-ghana/index.html",
+    "static/css/main.59e422c4.chunk.css.map": "/achoratechs-ghana/static/css/main.59e422c4.chunk.css.map",
+    "static/js/2.52b912bd.chunk.js.LICENSE.txt": "/achoratechs-ghana/static/js/2.52b912bd.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9479489d.js",
+    "static/js/2.52b912bd.chunk.js",
+    "static/css/main.59e422c4.chunk.css",
+    "static/js/main.e46cf5f7.chunk.js"
+  ]
+}
