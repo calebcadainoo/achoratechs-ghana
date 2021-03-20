@@ -25,7 +25,6 @@ function CategorySidebar() {
 					type: actionTypes.SET_CATEGORIES,
 					categories: feedback.data,
 				})
-        console.log('LOCAL CATE: ', categories)
       })
   }, [])
 

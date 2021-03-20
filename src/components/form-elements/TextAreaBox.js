@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-function InputBox({label, name, onInputBoxChange, stateVal}) {
+function TextAreaBox({label, name, onInputBoxChange, stateVal}) {
 
   const handleInputChange = useCallback((e) => {
     onInputBoxChange(e.target.value)
@@ -9,13 +9,13 @@ function InputBox({label, name, onInputBoxChange, stateVal}) {
   return (
     <div className="my-2">
       <label className="my-2 block text-sm">{label}</label>
-      <input type="text" required
+      <textarea required
         onChange={handleInputChange} 
         value={stateVal}
         name={name} className="border outline-none p-2 px-3 w-full" 
-      />
+      >{stateVal}</textarea>
     </div>
   )
 }
 
-export default InputBox
+export default TextAreaBox
