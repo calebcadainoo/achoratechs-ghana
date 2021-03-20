@@ -18,7 +18,7 @@ function ProductItem({ item }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
   // DataLayer - React context api
-  const [{ categories, BASE_URL }, dispatch] = useDataLayerValue()
+  const [{ BASE_URL, categories, products }, dispatch] = useDataLayerValue()
   // react alert
   const alert = useAlert()
 
@@ -84,7 +84,19 @@ function ProductItem({ item }) {
   }
 
   const DeleteProduct = (id) => {
-
+    const newProducts = products.filter((product) => product.id !== id )
+    dispatch({
+      type: actionTypes.SET_PRODUCTS,
+      products: newProducts,
+    })
+    // delete from api
+    fetch(`${BASE_URL}/items/${id}`, {
+      method: 'DELETE',
+    })
+    .then(response => response.json())
+    .then(feedback => {
+      alert.show(feedback.message)
+    })
   }
 
   return (
@@ -99,13 +111,13 @@ function ProductItem({ item }) {
             Price: GHS{item.price}
           </div>
           <div className="text-sm font-semibold ">
-            {item.title}
-          </div>
-          <div className="text-sm font-semibold ">
-            {item.description}
+            Title: {item.title}
           </div>
           <div className="text-sm font-semibold ">
             Category: {item.category.name}
+          </div>
+          <div className="text-sm font-semibold ">
+            Description: {item.description}
           </div>
           <aside className="flex uppercase gap-x-3 my-2">
             <div onClick={() => LoadProduct(item.id)} className="p-1 bg-blue-100 rounded text-blue-500 text-xs px-3 cursor-pointer hover:shadow-md ">
