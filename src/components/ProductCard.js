@@ -48,7 +48,6 @@ function ProductCard() {
 
   const CreateProduct = (evt) => {
 		evt.preventDefault()
-		console.log('IMAGE FILE: ', itemImage)
 		let imageData = new FormData()
 		imageData.append("file", itemImage)
 		// upload image
@@ -104,11 +103,13 @@ function ProductCard() {
 	}
 
 	const onImageChange = (evt) => {
-		evt.preventDefault()
-		let img = evt.target.files[0]
-		setItemImage(img)
-		console.log(img)
-	} 
+    if (evt.target.files && evt.target.files[0]) {
+      let img = evt.target.files[0]
+      setItemImage({
+				file: URL.createObjectURL(img)
+			})
+    }
+  };
   
   return (
     <div className="col-span-2 bg-white flex flex-col">
@@ -119,7 +120,7 @@ function ProductCard() {
         </div>
       </div>
 
-			<section className="text-left p-4 mt-5 flex-1 overflow-auto ">
+			<section className="text-left p-4 mt-5 flex-1 overflow-auto grid grid-cols-3 gap-3 col-span-2">
 				{(typeof products != "undefined") ? (
 						products.map((item, key) => {
 							return <ProductItem item={item} />
@@ -138,7 +139,13 @@ function ProductCard() {
         <ModalTitle title="Add New Item" />
 				<form method="POST" onSubmit={CreateProduct} encType="multipart/form-data" >
 					<div className="my-10">
-						<input onChange={onImageChange} type="file" name="itemImage" accept="image/*" />
+						<input onChange={
+							(evt) => {
+								evt.preventDefault()
+								let img = evt.target.files[0]
+								setItemImage(URL.createObjectURL(img))
+							} 
+						} type="file" name="itemImage" accept="image/*" />
 
           <InputBox onInputBoxChange={setItemTitle} 
 							key="i1"

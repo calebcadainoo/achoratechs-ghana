@@ -88,7 +88,7 @@ function ProductItem({ item }) {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-1">
+    <div className="hello">
       <div className="shadow-lg ">
         <img className="max-h-52  h-full w-full object-cover " 
           src="https://cdn.pocket-lint.com/r/s/1200x/assets/images/120309-phones-news-buyer-s-guide-best-smartphones-2020-the-top-mobile-phones-available-to-buy-today-image27-gfxwnxca2p.jpg" 
