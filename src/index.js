@@ -7,6 +7,9 @@ import { DataLayer } from './context-api/DataLayer';
 import reducer, { initialState } from './context-api/reducer';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
+import ReactModal from 'react-modal'
+
+ReactModal.setAppElement('#root')
 
 // optional configuration
 const options = {

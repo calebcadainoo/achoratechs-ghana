@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDataLayerValue } from '../context-api/DataLayer'
 import { actionTypes } from '../context-api/reducer'
 import { useAlert } from 'react-alert'
+import ReactModal from 'react-modal'
 
 function CategoryItem(props) {
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   // DataLayer - React context api
   const [{ categories, BASE_URL }, dispatch] = useDataLayerValue()
@@ -12,6 +14,8 @@ function CategoryItem(props) {
 
   const CategoryEdit = (id) => {
     console.log('EDIT ID: ', id)
+    setIsModalOpen(true)
+
   }
 
   const DeleteCategory = (id) => {
@@ -27,7 +31,6 @@ function CategoryItem(props) {
     })
     .then(response => response.json())
     .then(feedback => {
-      // console.log('DELETE RESPONSE: ', feedback)
       alert.show(feedback.message)
     })
   }
@@ -45,6 +48,14 @@ function CategoryItem(props) {
           Delete
         </div>
       </aside>
+
+      <ReactModal 
+        isOpen={isModalOpen}
+        shouldCloseOnOverlayClick={true}
+        onRequestClose={() => setIsModalOpen(false)}
+      >
+        <h2>Edit Category</h2>
+      </ReactModal>
     </div>
   )
 }

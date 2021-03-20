@@ -3,11 +3,17 @@ import React, { useEffect, useState } from 'react'
 import CategoryItem from './CategoryItem'
 import { useDataLayerValue } from '../context-api/DataLayer'
 import { actionTypes } from '../context-api/reducer'
-import ModalCreateCategory from './ModalCreateCategory'
+// import ModalCreateCategory from './ModalCreateCategory'
+import ReactModal from 'react-modal'
+import InputBox from './form-elements/InputBox'
+import ModalTitle from './form-elements/ModalTitle'
+import { useAlert } from 'react-alert'
 
 function CategorySidebar() {
   // DataLayer - React context api
   const [{ categories, BASE_URL }, dispatch] = useDataLayerValue()
+	// react alert
+  const alert = useAlert()
 
   // make api call
   useEffect(() => {
@@ -24,6 +30,43 @@ function CategorySidebar() {
   }, [])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
+	const [categoryName, setCategoryName] = useState('')
+	const modalStyle = {
+		overflow: {
+			background: 'rgba(0, 0, 0, 0.3)'
+		},
+		content: {
+			maxWidth: '500px',
+			margin: 'auto',
+		}
+	}
+
+	const CreateCategory = (evt) => {
+		evt.preventDefault()
+		const data = JSON.stringify({
+			"name": categoryName,
+		})
+
+		fetch(`${BASE_URL}/categories`, {
+			method: evt.target.method,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: data,
+		})
+		.then(response => response.json())
+		.then(feedback => {
+			// set categories value
+			categories.unshift(feedback.data)
+			dispatch({
+				type: actionTypes.SET_CATEGORIES,
+				categories: categories,
+			})
+			setIsModalOpen(false)
+			setCategoryName('')
+			alert.show(feedback.message)
+		})
+	}
 
 
   return (
@@ -42,7 +85,30 @@ function CategorySidebar() {
         ) :('')}
       </section>
 
-      <ModalCreateCategory open={isModalOpen} />
+      {/* <ModalCreateCategory open={isModalOpen} /> */}
+			<ReactModal 
+        isOpen={isModalOpen}
+        shouldCloseOnOverlayClick={true}
+        onRequestClose={() => setIsModalOpen(false)}
+				style={modalStyle}
+      >
+				{/* close btn */}
+				<button onClick={() => setIsModalOpen(false)} className="btn p-1 uppercase bg-red-100 rounded text-red-500 text-xs px-3 cursor-pointer shadow-md " >Close X</button>
+        <ModalTitle title="Add New Category" />
+				<form method="POST" onSubmit={CreateCategory}>
+					<div className="my-10">
+						<InputBox onInputBoxChange={setCategoryName} 
+							key="1"
+							label="Category Name" 
+							name="categoryName" 
+							stateVal={categoryName}
+						/>
+					</div>
+					<button type="submit" className="w-9/12 m-auto outline-none btn table p-2 px-5 rounded shadow-2xl uppercase cursor-pointer text-xs bg-blue-600 text-white ">
+						Add Category
+					</button>
+				</form>
+			</ReactModal>
     </div>
   )
 }
