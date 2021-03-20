@@ -29,10 +29,10 @@ function CategoryItem(props) {
   const LoadCategory = (id) => {
     setEditCategoryId(id)
     setIsEditModalOpen(true)
-    const test = categories.filter((category) => {
+    const read = categories.filter((category) => {
       return category.id === id
     })
-    setCategoryName(test[0].name)
+    setCategoryName(read[0].name)
   }
 
   const EditCategory = (evt, id) => {

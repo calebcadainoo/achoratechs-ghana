@@ -16,7 +16,7 @@ function SelectBox({label, name, optionList, onInputBoxChange, stateVal}) {
         <option value="">-- Choose from list --</option>
         {(typeof optionList != "undefined") ? (
           optionList.map((category, key) => {
-            const option = <option value={category.name} key={key}>{category.name}</option>
+            const option = <option value={category.id} key={key}>{category.name}</option>
             return option
           })
         ) :('')}

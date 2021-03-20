@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { useDataLayerValue } from '../context-api/DataLayer'
 import { actionTypes } from '../context-api/reducer'
@@ -7,6 +8,7 @@ import ModalTitle from './form-elements/ModalTitle'
 import { useAlert } from 'react-alert'
 import TextAreaBox from './form-elements/TextAreaBox'
 import SelectBox from './form-elements/SelectBox'
+import ProductItem from './ProductItem'
 
 function ProductCard() {
   // DataLayer - React context api
@@ -28,7 +30,11 @@ function ProductCard() {
   }, [])
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-	const [itemObject, setItemObject] = useState('')
+	const [itemImage, setItemImage] = useState('')
+	const [itemTitle, setItemTitle] = useState('')
+	const [itemPrice, setItemPrice] = useState(0)
+	const [itemCateory, setItemCateory] = useState('')
+	const [itemDescription, setItemDescription] = useState('')
 
 	const modalStyle = {
 		overflow: {
@@ -42,11 +48,32 @@ function ProductCard() {
 
   const CreateProduct = (evt) => {
 		evt.preventDefault()
-		const data = JSON.stringify({
-			itemObject,
+		console.log('IMAGE FILE: ', itemImage)
+		let imageData = new FormData()
+		imageData.append("file", itemImage)
+		// upload image
+		fetch(`${BASE_URL}/upload`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+			body: imageData,
+		})
+		.then(response => response.json())
+		.then(feedback => {
+			console.log('UPLOAD: ', feedback)
+			setItemImage(feedback.data[0])
 		})
 
-		fetch(`${BASE_URL}/item`, {
+		const data = JSON.stringify({
+      "image": itemImage,
+      "title": itemTitle,
+      "price": itemPrice,
+      "description": itemDescription,
+      "category": itemCateory,
+		})
+
+		fetch(`${BASE_URL}/items`, {
 			method: evt.target.method,
 			headers: {
 				'Content-Type': 'application/json',
@@ -55,26 +82,50 @@ function ProductCard() {
 		})
 		.then(response => response.json())
 		.then(feedback => {
+			console.log('NEW ITEM: ', feedback)
 			// set categories value
-			products.unshift(feedback.data)
-			dispatch({
-				type: actionTypes.SET_PRODUCTS,
-				products: products,
-			})
+			fetch(`${BASE_URL}/items`)
+      .then(response => response.json())
+      .then(feedback => {
+        dispatch({
+					type: actionTypes.SET_PRODUCTS,
+					products: feedback.data,
+				})
+      })
 			setIsCreateModalOpen(false)
-			setItemObject('')
+			setItemImage('')
+      setItemTitle('')
+      setItemPrice('')
+      setItemCateory('')
+      setItemDescription('')
 			alert.show(feedback.message)
+			console.log(feedback)
 		})
 	}
+
+	const onImageChange = (evt) => {
+		evt.preventDefault()
+		let img = evt.target.files[0]
+		setItemImage(img)
+		console.log(img)
+	} 
   
   return (
-    <div className="col-span-2 bg-white">
+    <div className="col-span-2 bg-white flex flex-col">
       <h3 className="text-xl m-2 my-3">Product List</h3>
       <div className="flex p-4 justify-end">
         <div onClick={() => setIsCreateModalOpen(true)} className="table p-2 rounded shadow-2xl uppercase cursor-pointer text-xs bg-blue-600 text-white hover:bg-white hover:text-blue-600">
           Create Item
         </div>
       </div>
+
+			<section className="text-left p-4 mt-5 flex-1 overflow-auto ">
+				{(typeof products != "undefined") ? (
+						products.map((item, key) => {
+							return <ProductItem item={item} />
+						})
+					) :('')}
+			</section>
 
       <ReactModal 
         isOpen={isCreateModalOpen}
@@ -85,35 +136,37 @@ function ProductCard() {
 				{/* close btn */}
 				<button onClick={() => setIsCreateModalOpen(false)} className="btn p-1 uppercase bg-red-100 rounded text-red-500 text-xs px-3 cursor-pointer shadow-md " >Close X</button>
         <ModalTitle title="Add New Item" />
-				<form method="POST" onSubmit={CreateProduct}>
+				<form method="POST" onSubmit={CreateProduct} encType="multipart/form-data" >
 					<div className="my-10">
-          <InputBox onInputBoxChange={setItemObject} 
+						<input onChange={onImageChange} type="file" name="itemImage" accept="image/*" />
+
+          <InputBox onInputBoxChange={setItemTitle} 
 							key="i1"
 							label="Title" 
 							name="itemTitle" 
-							stateVal={itemObject}
+							stateVal={itemTitle}
 						/>
 
-            <InputBox onInputBoxChange={setItemObject} 
+            <InputBox onInputBoxChange={setItemPrice} 
 							key="i2"
 							label="Price" 
 							name="itemPrice" 
-							stateVal={itemObject}
+							stateVal={itemPrice}
 						/>
 
-            <SelectBox onInputBoxChange={setItemObject} 
+            <SelectBox onInputBoxChange={setItemCateory} 
 							key="i3"
 							label="Select Category" 
-							name="categoryName" 
+							name="itemCateory" 
 							optionList={categories}
-							stateVal={itemObject}
+							stateVal={itemCateory}
 						/>
 
-            <TextAreaBox onInputBoxChange={setItemObject} 
+            <TextAreaBox onInputBoxChange={setItemDescription} 
 							key="i4"
-							label="Item Name" 
-							name="categoryName" 
-							stateVal={itemObject}
+							label="Description" 
+							name="itemDescription" 
+							stateVal={itemDescription}
 						/>
 					</div>
 					<button type="submit" className="w-9/12 m-auto outline-none btn table p-2 px-5 rounded shadow-2xl uppercase cursor-pointer text-xs bg-blue-600 text-white ">
