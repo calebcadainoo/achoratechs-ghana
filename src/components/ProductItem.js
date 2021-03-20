@@ -41,8 +41,9 @@ function ProductItem({ item }) {
     setItemImage(test[0].image)
     setItemTitle(test[0].title)
     setItemPrice(test[0].price)
-    setItemCateory(test[0].category.name)
+    setItemCateory(test[0].category.id)
     setItemDescription(test[0].description)
+    console.log('LOAD VAL: ', test[0])
   }
   
   const EditProduct = (evt, id) => {
@@ -163,6 +164,7 @@ function ProductItem({ item }) {
                 name="itemCateory" 
                 optionList={categories}
                 stateVal={itemCateory}
+                isBeingEdited={true}
               />
 
               <TextAreaBox onInputBoxChange={setItemDescription} 
