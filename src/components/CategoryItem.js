@@ -1,11 +1,14 @@
 import React from 'react'
 import { useDataLayerValue } from '../context-api/DataLayer'
 import { actionTypes } from '../context-api/reducer'
+import { useAlert } from 'react-alert'
 
 function CategoryItem(props) {
 
   // DataLayer - React context api
   const [{ categories, BASE_URL }, dispatch] = useDataLayerValue()
+  // react alert
+  const alert = useAlert()
 
   const CategoryEdit = (id) => {
     console.log('EDIT ID: ', id)
@@ -24,7 +27,8 @@ function CategoryItem(props) {
     })
     .then(response => response.json())
     .then(feedback => {
-      console.log('DELETE RESPONSE: ', feedback)
+      // console.log('DELETE RESPONSE: ', feedback)
+      alert.show(feedback.message)
     })
   }
 

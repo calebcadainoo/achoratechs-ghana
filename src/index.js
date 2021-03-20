@@ -5,11 +5,25 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { DataLayer } from './context-api/DataLayer';
 import reducer, { initialState } from './context-api/reducer';
+import { transitions, positions, Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
+
+// optional configuration
+const options = {
+  // you can also just use 'bottom center'
+  position: positions.BOTTOM_CENTER,
+  timeout: 5000,
+  offset: '30px',
+  // you can also just use 'scale'
+  transition: transitions.SCALE
+}
 
 ReactDOM.render(
   <DataLayer initialState={initialState} reducer={reducer}>
+    <AlertProvider template={AlertTemplate} {...options}>
       <App />
-    </DataLayer>,
+    </AlertProvider>
+  </DataLayer>,
   document.getElementById('root')
 );
 

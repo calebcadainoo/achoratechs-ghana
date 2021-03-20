@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import CategoryItem from './CategoryItem'
 import { useDataLayerValue } from '../context-api/DataLayer'
 import { actionTypes } from '../context-api/reducer'
+import ModalCreateCategory from './ModalCreateCategory'
 
 function CategorySidebar() {
   // DataLayer - React context api
@@ -22,12 +23,14 @@ function CategorySidebar() {
       })
   }, [])
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
 
   return (
     <div className="bg-gray-200 flex flex-col h-full overflow-hidden">
       <h3 className="text-xl m-2 my-3">Categories</h3>
       <div className="flex p-4 justify-end">
-        <div className="table p-2 rounded shadow-2xl uppercase cursor-pointer text-xs bg-blue-600 text-white hover:bg-white hover:text-blue-600">
+        <div onClick={() => setIsModalOpen(true)} className="table p-2 rounded shadow-2xl uppercase cursor-pointer text-xs bg-blue-600 text-white hover:bg-white hover:text-blue-600">
           Create Category
         </div>
       </div>
@@ -38,6 +41,8 @@ function CategorySidebar() {
           })
         ) :('')}
       </section>
+
+      <ModalCreateCategory open={isModalOpen} />
     </div>
   )
 }
