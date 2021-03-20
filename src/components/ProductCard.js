@@ -101,15 +101,6 @@ function ProductCard() {
 			console.log(feedback)
 		})
 	}
-
-	const onImageChange = (evt) => {
-    if (evt.target.files && evt.target.files[0]) {
-      let img = evt.target.files[0]
-      setItemImage({
-				file: URL.createObjectURL(img)
-			})
-    }
-  };
   
   return (
     <div className="col-span-2 bg-white flex flex-col">
